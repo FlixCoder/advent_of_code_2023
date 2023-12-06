@@ -26,4 +26,4 @@ macro_rules! implemented_days {
 	};
 }
 
-implemented_days!(1, 5);
+implemented_days!(1, 5, 6);
