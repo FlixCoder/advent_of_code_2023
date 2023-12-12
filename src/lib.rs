@@ -1,5 +1,7 @@
 mod days;
 
+use std::time::Instant;
+
 use anyhow::{bail, Context, Result};
 use clap::{value_parser, Parser};
 
@@ -13,10 +15,14 @@ impl Cli {
 	pub fn run(self) -> Result<()> {
 		if let Some(day) = days::DAYS.get(&self.day) {
 			let input = fetch_input(self.day)?;
+
+			let time = Instant::now();
 			let result = day.part1(&input)?;
-			println!("Part 1: {result}");
+			println!("Part 1 ({:?}): {result}", time.elapsed());
+
+			let time = Instant::now();
 			let result = day.part2(&input)?;
-			println!("Part 2: {result}");
+			println!("Part 2 ({:?}): {result}", time.elapsed());
 		} else {
 			bail!("This day is not implemented");
 		}
