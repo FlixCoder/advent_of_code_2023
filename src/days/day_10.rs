@@ -1,5 +1,6 @@
-use std::{collections::HashSet, str::FromStr};
+use std::str::FromStr;
 
+use ahash::AHashSet;
 use anyhow::{bail, Context, Result};
 
 use super::AocDay;
@@ -21,7 +22,7 @@ impl AocDay for Day {
 		let l = grid.get_loop(start)?;
 
 		let (width, height) = grid.dimensions();
-		let l: HashSet<Position> = l.into_iter().collect();
+		let l: AHashSet<Position> = l.into_iter().collect();
 		let mut enclosed = 0;
 		for y in 0..height {
 			for x in 0..width {
@@ -43,7 +44,7 @@ struct Position {
 }
 
 impl Position {
-	pub fn is_enclosed(&self, l: &HashSet<Self>, grid: &Grid) -> bool {
+	pub fn is_enclosed(&self, l: &AHashSet<Self>, grid: &Grid) -> bool {
 		if l.contains(self) {
 			return false;
 		}

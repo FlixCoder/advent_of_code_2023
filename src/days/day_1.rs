@@ -1,5 +1,4 @@
-use std::collections::HashMap;
-
+use ahash::AHashMap;
 use anyhow::{Context, Result};
 use once_cell::sync::Lazy;
 use regex::Regex;
@@ -34,7 +33,7 @@ impl AocDay for Day {
 				.expect("creating regex")
 		});
 
-		let mut map = HashMap::new();
+		let mut map = AHashMap::new();
 		map.insert("one", "1");
 		map.insert("two", "2");
 		map.insert("three", "3");

@@ -1,5 +1,6 @@
-use std::{collections::HashMap, str::FromStr};
+use std::str::FromStr;
 
+use ahash::AHashMap;
 use anyhow::{bail, Context, Result};
 use rayon::prelude::*;
 
@@ -34,13 +35,13 @@ impl Rows {
 
 impl Row {
 	pub fn possible_arrangements(&self) -> usize {
-		Self::internal_possible_arrangements(&self.records, &self.continuous, &mut HashMap::new())
+		Self::internal_possible_arrangements(&self.records, &self.continuous, &mut AHashMap::new())
 	}
 
 	fn internal_possible_arrangements<'a>(
 		records: &'a [Option<Status>],
 		continuous: &'a [usize],
-		cache: &mut HashMap<(&'a [Option<Status>], &'a [usize]), usize>,
+		cache: &mut AHashMap<(&'a [Option<Status>], &'a [usize]), usize>,
 	) -> usize {
 		if continuous.is_empty() {
 			if records.contains(&Some(Status::Damaged)) {

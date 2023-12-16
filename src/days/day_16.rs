@@ -1,8 +1,6 @@
-use std::{
-	collections::{HashSet, VecDeque},
-	str::FromStr,
-};
+use std::{collections::VecDeque, str::FromStr};
 
+use ahash::AHashSet;
 use anyhow::Result;
 use rayon::prelude::*;
 
@@ -40,8 +38,8 @@ impl Grid {
 	}
 
 	pub fn energized(&self, start_pos: Position, start_direction: Direction) -> usize {
-		let mut seen = HashSet::new();
-		let mut energized = HashSet::new();
+		let mut seen = AHashSet::new();
+		let mut energized = AHashSet::new();
 		let mut rays = VecDeque::new();
 
 		energized.insert(start_pos);
@@ -59,13 +57,11 @@ impl Grid {
 				energized.insert(new_pos);
 
 				let (new_direction, second_direction) = direction.next(self.get(new_pos));
-				if !seen.contains(&(new_pos, new_direction)) {
-					seen.insert((new_pos, new_direction));
+				if seen.insert((new_pos, new_direction)) {
 					rays.push_back((new_pos, new_direction));
 				}
 				if let Some(new_direction) = second_direction {
-					if !seen.contains(&(new_pos, new_direction)) {
-						seen.insert((new_pos, new_direction));
+					if seen.insert((new_pos, new_direction)) {
 						rays.push_back((new_pos, new_direction));
 					}
 				}
